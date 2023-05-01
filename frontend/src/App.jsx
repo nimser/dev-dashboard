@@ -1,13 +1,14 @@
-import Home from "./pages/Home";
-
+import resources from "./resources";
+import Card from "./components/Card";
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
-      <Home />
-      <p>coucou</p>
-    </div>
+    <>
+      {resources.map((rsc) => (
+        <Card key={rsc.title} resource={rsc} />
+      ))}
+    </>
   );
 }
 
