@@ -4,11 +4,11 @@ import "./App.css";
 
 function App() {
   return (
-    <>
+    <main>
       {resources.map((rsc) => (
         <Card key={rsc.title} resource={rsc} />
       ))}
-    </>
+    </main>
   );
 }
 

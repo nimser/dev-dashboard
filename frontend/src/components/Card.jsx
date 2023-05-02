@@ -1,8 +1,9 @@
 import PropTypes from "prop-types";
+import styles from "./card.module.css";
 
 function Card({ resource }) {
   return (
-    <div style={{ border: "2px solid black" }}>
+    <div className={styles.card}>
       <header>
         <h1>
           <a href={resource.url}>{resource.title}</a>
