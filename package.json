@@ -1,25 +1,6 @@
 {
   "name": "template-fullstack",
-<<<<<<< HEAD
   "version": "3.0.0",
-  "description": "project template for the React-Express-MySQL cursus in Wild Code School",
-  "homepage": "https://github.com/wildcodeschool/js-template-fullstack#readme",
-  "bugs": {
-    "url": "https://github.com/wildcodeschool/js-template-fullstack/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wildcodeschool/js-template-fullstack.git"
-  },
-  "config": {
-    "cli": "npm"
-  },
-||||||| parent of ae722d8 (Add basic routes)
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-=======
-  "version": "2.0.2",
   "description": "project template for the React-Express-MySQL cursus in Wild Code School",
   "homepage": "https://github.com/wildcodeschool/js-template-fullstack#readme",
   "bugs": {
@@ -32,7 +13,6 @@
   "config": {
     "cli": "pnpm"
   },
->>>>>>> ae722d8 (Add basic routes)
   "scripts": {
     "postinstall": "cross-env-shell \"husky install && cd ./frontend && $npm_package_config_cli install && cd ../backend && $npm_package_config_cli install\"",
     "migrate": "cd ./backend && node migrate.js",

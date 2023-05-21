@@ -12,3 +12,7 @@
 .card:hover {
   transform: scale(1.05);
 }
+.heading {
+  display: flex;
+  flex-direction: column;
+}
