@@ -12,24 +12,27 @@ function Card({ resource }) {
     baseURL: "https://api.embed.rocks",
     headers: { "x-api-key": import.meta.env.VITE_OG_API_KEY },
   });
-  useEffect(
-    () => {
-      const controller = new AbortController()
-      instance
-        .get(`/api?url=${url}`, { signal: controller.signal })
-        .then((response) => response.data.images?.[0])
-        .then((image) => image && setBanner(image?.url))
-        .catch((err) => console.error(err))
+  useEffect(() => {
+    const controller = new AbortController();
+    instance
+      .get(`/api?url=${url}`, { signal: controller.signal })
+      .then((response) => response.data.images?.[0])
+      .then((image) => image && setBanner(image?.url))
+      .catch((err) => console.error(err));
 
-      return () => { controller.abort() }
-    },
-    []
-  );
+    return () => {
+      controller.abort();
+    };
+  }, []);
 
   return (
     <div className={styles.card}>
       <header className={styles.heading}>
-        <img src={banner} alt="Represents the article" />
+        <img
+          className={styles.image}
+          src={banner}
+          alt="Represents the article"
+        />
         <h1>
           <a href={resource.url}>{resource.title}</a>
         </h1>
