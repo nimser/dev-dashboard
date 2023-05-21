@@ -6,10 +6,34 @@ const path = require("node:path");
 // create express app
 
 const express = require("express");
+const cors = require("cors");
+const connection = require("./db");
 
 const app = express();
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
 
-app.get("/resources", () => {});
+connection.connect((err) => {
+  if (err) {
+    console.error("Error connecting to db");
+  } else {
+    console.info("Connected to db");
+  }
+});
+app.get("/resources", async (req, res) => {
+  try {
+    const [results] = await connection
+      .promise()
+      .query("SELECT * FROM resources");
+    res.json(results);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error in querying the SQL server");
+  }
+});
 app.get("/resources/:id", () => {});
 
 // serve REACT APP
