@@ -14,13 +14,15 @@ function Card({ resource }) {
   });
   useEffect(
     () => {
+      const controller = new AbortController()
       instance
-        .get(`/api?url=${url}`)
+        .get(`/api?url=${url}`, { signal: controller.signal })
         .then((response) => response.data.images?.[0])
         .then((image) => image && setBanner(image?.url))
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err))
+
+      return () => { controller.abort() }
     },
-    // FIXME return AbortController cleanup
     []
   );
 
