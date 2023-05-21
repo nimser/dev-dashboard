@@ -39,17 +39,18 @@ function Card({ resource }) {
         <h2>{resource.type}</h2>
       </header>
       <p>{resource.description}</p>
-      <div>topics: {resource.topics.join(", ")}</div>
+      <div>topics: {resource.topics}</div>
     </div>
   );
 }
 
 Card.propTypes = {
   resource: PropTypes.exact({
+    id: PropTypes.number,
     title: PropTypes.string,
     url: PropTypes.string,
     type: PropTypes.string,
-    topics: PropTypes.arrayOf(PropTypes.string),
+    topics: PropTypes.string,
     description: PropTypes.string,
   }).isRequired,
 };
