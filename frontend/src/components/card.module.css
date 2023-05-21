@@ -1,0 +1,23 @@
+.card {
+  border: 2px solid slateGrey;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px lightGrey;
+  transition: transform 0.1s;
+  width: 360px;
+}
+.card:hover {
+  transform: scale(1.05);
+}
+.heading {
+  display: flex;
+  flex-direction: column;
+}
+.image {
+  height: 200px;
+  object-fit: cover;
+  object-position: center top;
+}

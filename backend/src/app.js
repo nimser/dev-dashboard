@@ -1,20 +1,39 @@
-const express = require("express");
-const path = require("path");
+// import some node modules for later
 
-// let's create express app
+const fs = require("node:fs");
+const path = require("node:path");
+
+// create express app
+
+const express = require("express");
 
 const app = express();
 
-// use some application-level middlewares
+app.get("/resources", () => {});
+app.get("/resources/:id", () => {});
 
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "../public")));
+// serve REACT APP
 
-// load router
+const reactIndexFile = path.join(
+  __dirname,
+  "..",
+  "..",
+  "frontend",
+  "dist",
+  "index.html"
+);
 
-const router = require("./router");
+if (fs.existsSync(reactIndexFile)) {
+  // serve REACT resources
 
-app.use(router);
+  app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")));
+
+  // redirect all requests to the REACT index file
+
+  app.get("*", (req, res) => {
+    res.sendFile(reactIndexFile);
+  });
+}
 
 // ready to export
 
