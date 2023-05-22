@@ -18,6 +18,7 @@ connection.connect((err) => {
 });
 
 const app = express();
+app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -31,7 +32,7 @@ app.get("/resources", async (req, res) => {
     console.info("Sent results:", results);
     res.json(results);
   } catch (err) {
-    res.status(500).send("Failure to retrieve data from the database.")
+    res.status(500).send("Failure to retrieve data from the database.");
   }
 });
 app.post("/resources", async (req, res) => {
@@ -40,13 +41,22 @@ app.post("/resources", async (req, res) => {
     const [result] = await connection
       .promise()
       .query(
-        "INSERT INTO resources (title, url, type, topics, description) VALUES (?, ?, ?, ?, ?)", 
+        "INSERT INTO resources (title, url, type, topics, description) VALUES (?, ?, ?, ?, ?)",
         [title, url, type, topics, description]
       );
-    const createdResource = {id: result.id, ...result}
+    console.log("result: ", result);
+    const createdResource = {
+      id: result.insertId,
+      title,
+      url,
+      type,
+      topics,
+      description,
+    };
     res.status(201).json(createdResource);
   } catch (err) {
-    res.status(500).send("Failure to write data to the database.")
+    console.log(err);
+    res.status(500).send("Failure to write data to the database.");
   }
 });
 app.get("/resources/:id", () => {});
