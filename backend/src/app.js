@@ -6,10 +6,49 @@ const path = require("node:path");
 // create express app
 
 const express = require("express");
+const cors = require("cors");
+const connection = require("./db");
+
+connection.connect((err) => {
+  if (err) {
+    console.error("error connecting db");
+  } else {
+    console.info("connected to db");
+  }
+});
 
 const app = express();
-
-app.get("/resources", () => {});
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+  })
+);
+app.get("/resources", async (req, res) => {
+  try {
+    const [results] = await connection
+      .promise()
+      .query("SELECT * FROM resources");
+    console.info("Sent results:", results);
+    res.json(results);
+  } catch (err) {
+    res.status(500).send("Failure to retrieve data from the database.")
+  }
+});
+app.post("/resources", async (req, res) => {
+  try {
+    const { title, url, type, topics, description } = req.body;
+    const [result] = await connection
+      .promise()
+      .query(
+        "INSERT INTO resources (title, url, type, topics, description) VALUES (?, ?, ?, ?, ?)", 
+        [title, url, type, topics, description]
+      );
+    const createdResource = {id: result.id, ...result}
+    res.status(201).json(createdResource);
+  } catch (err) {
+    res.status(500).send("Failure to write data to the database.")
+  }
+});
 app.get("/resources/:id", () => {});
 
 // serve REACT APP
