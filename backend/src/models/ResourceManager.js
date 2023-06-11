@@ -1,22 +1,22 @@
 const AbstractManager = require("./AbstractManager");
 
-class ItemManager extends AbstractManager {
+class ResourceManager extends AbstractManager {
   constructor() {
-    super({ table: "item" });
+    super({ table: "resources" });
   }
 
-  insert(item) {
+  insert(resource) {
     return this.database.query(`insert into ${this.table} (title) values (?)`, [
-      item.title,
+      resource.title,
     ]);
   }
 
-  update(item) {
+  update(resource) {
     return this.database.query(
       `update ${this.table} set title = ? where id = ?`,
-      [item.title, item.id]
+      [resource.title, resource.id]
     );
   }
 }
 
-module.exports = ItemManager;
+module.exports = ResourceManager;
