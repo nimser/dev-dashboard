@@ -1,5 +1,8 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Card from "./components/Card";
+import NavBar from "./components/NavBar";
+import CardList from "./components/CardList";
+import ResourceForm from "./components/ResourceForm";
 import "./App.css";
 
 function App() {
@@ -17,11 +20,16 @@ function App() {
     fetchData();
   }, []);
   return (
-    <main>
-      {resources?.map((rsc) => (
-        <Card key={rsc.id} resource={rsc} />
-      ))}
-    </main>
+    <BrowserRouter>
+      <NavBar />
+      <main>
+        <Routes>
+          <Route path="/" element={<CardList resources={resources} />} />
+          <Route path="/create" element={<ResourceForm />} />
+          <Route path="/update/:id" element={<ResourceForm />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

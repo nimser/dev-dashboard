@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import styles from "./card.module.css";
 
 // cache and reuse promises based on url (see https://devpress.csdn.net/react/62eb675520df032da732b24a.html)
@@ -48,6 +49,14 @@ function Card({ resource }) {
       </header>
       <p>{resource.description}</p>
       <div>topics: {resource.topics}</div>
+      <div className={styles.toolBar}>
+        <button type="button" aria-label="delete">
+          <AiFillDelete />
+        </button>
+        <button type="button" aria-label="edit">
+          <AiFillEdit />
+        </button>
+      </div>
     </div>
   );
 }
