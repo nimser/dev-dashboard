@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
+
 import styles from "./resource.module.css";
 
 export default function ResourceForm() {
+  const { id } = useParams();
   const typeEnum = [
     "Practice / Exercise",
     "Alternative class",
@@ -11,7 +14,6 @@ export default function ResourceForm() {
     "Dev tools",
     "Other",
   ];
-
   const [resource, setResource] = useState({
     title: "",
     url: "",
@@ -20,13 +22,31 @@ export default function ResourceForm() {
     description: "",
   });
 
+  useEffect(() => {
+    if (id) {
+      axios
+        .get(`${import.meta.env.VITE_BACKEND_URL}/resources/${id}`)
+        .then(({ data }) => {
+          console.info(data);
+          setResource(data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const instance = axios.create({
       baseURL: import.meta.env.VITE_BACKEND_URL,
       headers: { "Content-Type": "application/json" },
     });
-    instance.post("/resources", resource);
+    if (id) {
+      instance.put(`/resources/${id}`, resource);
+    } else {
+      instance.post("/resources", resource);
+    }
   };
 
   return (

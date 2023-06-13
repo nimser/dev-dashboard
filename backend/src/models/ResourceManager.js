@@ -16,8 +16,15 @@ class ResourceManager extends AbstractManager {
 
   update(resource) {
     return this.database.query(
-      `update ${this.table} set title = ? where id = ?`,
-      [resource.title, resource.id]
+      `update ${this.table} set title = ?, url = ?, type = ?, topics = ?, description = ? where id = ?`,
+      [
+        resource.title,
+        resource.url,
+        resource.type,
+        resource.topics,
+        resource.description,
+        resource.id,
+      ]
     );
   }
 }

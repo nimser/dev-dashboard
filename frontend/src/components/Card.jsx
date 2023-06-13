@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import styles from "./card.module.css";
@@ -34,7 +35,9 @@ function Card({ resource, setIsUpdated }) {
       .catch((err) => console.error(err));
   }, []);
 
-  const handleClick = async () => {
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
     const instance = axios.create({
       baseURL: import.meta.env.VITE_BACKEND_URL,
     });
@@ -44,6 +47,10 @@ function Card({ resource, setIsUpdated }) {
       console.error(err);
     }
     setIsUpdated((old) => !old);
+  };
+
+  const handleEdit = async () => {
+    navigate(`/update/${resource.id}`);
   };
 
   return (
@@ -62,10 +69,10 @@ function Card({ resource, setIsUpdated }) {
       <p>{resource.description}</p>
       <div>topics: {resource.topics}</div>
       <div className={styles.toolBar}>
-        <button type="button" aria-label="delete" onClick={handleClick}>
+        <button type="button" aria-label="delete" onClick={handleDelete}>
           <AiFillDelete />
         </button>
-        <button type="button" aria-label="edit">
+        <button type="button" aria-label="edit" onClick={handleEdit}>
           <AiFillEdit />
         </button>
       </div>
