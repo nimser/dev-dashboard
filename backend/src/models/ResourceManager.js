@@ -6,9 +6,12 @@ class ResourceManager extends AbstractManager {
   }
 
   insert(resource) {
-    return this.database.query(`insert into ${this.table} (title) values (?)`, [
-      resource.title,
-    ]);
+    return this.database.query(
+      `insert into ${this.table} (${Object.keys(resource).join(
+        ","
+      )}) values (?, ?, ?, ?, ?)`,
+      Object.values(resource)
+    );
   }
 
   update(resource) {
