@@ -21,7 +21,7 @@ const createFetch = () => {
   };
 };
 
-function Card({ resource }) {
+function Card({ resource, setIsUpdated }) {
   const [banner, setBanner] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
   );
@@ -33,6 +33,18 @@ function Card({ resource }) {
       .then((image) => image && setBanner(image?.url))
       .catch((err) => console.error(err));
   }, []);
+
+  const handleClick = async () => {
+    const instance = axios.create({
+      baseURL: import.meta.env.VITE_BACKEND_URL,
+    });
+    try {
+      await instance.delete(`/resources/${resource.id}`);
+    } catch (err) {
+      console.error(err);
+    }
+    setIsUpdated((old) => !old);
+  };
 
   return (
     <div className={styles.card}>
@@ -50,7 +62,7 @@ function Card({ resource }) {
       <p>{resource.description}</p>
       <div>topics: {resource.topics}</div>
       <div className={styles.toolBar}>
-        <button type="button" aria-label="delete">
+        <button type="button" aria-label="delete" onClick={handleClick}>
           <AiFillDelete />
         </button>
         <button type="button" aria-label="edit">
@@ -70,6 +82,7 @@ Card.propTypes = {
     topics: PropTypes.string,
     description: PropTypes.string,
   }).isRequired,
+  setIsUpdated: PropTypes.func.isRequired,
 };
 
 export default Card;
