@@ -1,11 +1,12 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 import styles from "./resource.module.css";
 
 export default function ResourceForm() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const fetcher = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
     headers: { "Content-Type": "application/json" },
@@ -40,13 +41,28 @@ export default function ResourceForm() {
     }
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const toastOptions = {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+    };
+
     if (id) {
-      fetcher.put(`/resources/${id}`, resource);
+      await fetcher.put(`/resources/${id}`, resource);
+      toast.success("Update performed", toastOptions);
     } else {
-      fetcher.post("/resources", resource);
+      await fetcher.post("/resources", resource);
+      toast.success("Resource created", toastOptions);
     }
+    navigate("/");
   };
 
   return (
