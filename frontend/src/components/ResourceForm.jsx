@@ -6,6 +6,10 @@ import styles from "./resource.module.css";
 
 export default function ResourceForm() {
   const { id } = useParams();
+  const fetcher = axios.create({
+    baseURL: import.meta.env.VITE_BACKEND_URL,
+    headers: { "Content-Type": "application/json" },
+  });
   const typeEnum = [
     "Practice / Exercise",
     "Alternative class",
@@ -24,8 +28,8 @@ export default function ResourceForm() {
 
   useEffect(() => {
     if (id) {
-      axios
-        .get(`${import.meta.env.VITE_BACKEND_URL}/resources/${id}`)
+      fetcher
+        .get(`/resources/${id}`)
         .then(({ data }) => {
           console.info(data);
           setResource(data);
@@ -38,14 +42,10 @@ export default function ResourceForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const instance = axios.create({
-      baseURL: import.meta.env.VITE_BACKEND_URL,
-      headers: { "Content-Type": "application/json" },
-    });
     if (id) {
-      instance.put(`/resources/${id}`, resource);
+      fetcher.put(`/resources/${id}`, resource);
     } else {
-      instance.post("/resources", resource);
+      fetcher.post("/resources", resource);
     }
   };
 
@@ -80,6 +80,7 @@ export default function ResourceForm() {
         <select
           name="type"
           id="type"
+          value={resource.type}
           onChange={(e) => setResource({ ...resource, type: e.target.value })}
         >
           {typeEnum.map((type) => (
