@@ -28,7 +28,7 @@ const verifyPassword = (req, res) => {
     if (ok) {
       res.json({ token: "oui, c'est bon" });
     } else {
-      res.sendStatus(401);
+      res.status(401).json({ message: "Invalid credentials. Try again." });
     }
   });
 };

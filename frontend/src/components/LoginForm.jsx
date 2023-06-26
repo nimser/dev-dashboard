@@ -5,10 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 function LoginForm() {
   const navigate = useNavigate();
-  const [user, setUser] = useState({
-    username: "",
-    password: "",
-  });
+  const [errors, setErrors] = useState("");
   const form = useRef(null);
   const { setToken } = useAuth();
 
@@ -28,8 +25,8 @@ function LoginForm() {
     )
       .then((res) => res.json())
       .then((json) => {
-        if (json.errors) {
-          setUser(json);
+        if (json.message) {
+          setErrors(json);
         } else {
           setToken(json.token);
           navigate("/");
@@ -40,17 +37,16 @@ function LoginForm() {
     <form ref={form} className={styles.form} onSubmit={handleSubmit}>
       <h2>Login</h2>
 
+      {errors.message && <p>{errors.message}</p>}
       <label>
         Username
-        <input type="text" name="username" defaultValue={user.username} />
+        <input type="text" name="username" />
       </label>
-      {user.errors?.username && <small>{user.errors.username.message}</small>}
 
       <label>
         Password
-        <input type="password" name="password" defaultValue={user.password} />
+        <input type="password" name="password" />
       </label>
-      {user.errors?.password && <small>{user.errors.password.message}</small>}
 
       <button type="submit">Sign in</button>
     </form>

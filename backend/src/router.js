@@ -19,6 +19,6 @@ router.put("/users/:id", validateUser, hashPassword, userControllers.edit);
 router.post("/users", validateUser, hashPassword, userControllers.add);
 router.delete("/users/:id", userControllers.destroy);
 
-router.post("/login", authControllers.login, verifyPassword);
+router.post("/login", authControllers.getUsernameAndPassword, verifyPassword);
 
 module.exports = router;

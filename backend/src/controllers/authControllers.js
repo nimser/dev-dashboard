@@ -5,15 +5,14 @@ const getUsernameAndPassword = (req, res, next) => {
     const userInDatabase = rows[0];
 
     if (userInDatabase == null) {
-      res.sendStatus(422);
+      res.status(401).json({ message: "Invalid credentials. Try again." });
     } else {
       req.user = userInDatabase;
       next();
     }
   });
-  res.json({ token: "oui oui, entre !" });
 };
 
 module.exports = {
   getUsernameAndPassword,
-}
+};
