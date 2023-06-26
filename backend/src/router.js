@@ -5,10 +5,13 @@ const router = express.Router();
 const resourceControllers = require("./controllers/resourceControllers");
 const userControllers = require("./controllers/userControllers");
 const authControllers = require("./controllers/authControllers");
-const { hashPassword, verifyPassword } = require("./middlewares/services/auth");
+const {
+  hashPassword,
+  verifyPassword,
+  verifyToken,
+} = require("./middlewares/services/auth");
 
 router.get("/resources", resourceControllers.browse);
-router.get("/resources/:id", resourceControllers.read);
 router.put("/resources/:id", resourceControllers.edit);
 router.post("/resources", resourceControllers.add);
 router.delete("/resources/:id", resourceControllers.destroy);
@@ -20,5 +23,10 @@ router.post("/users", validateUser, hashPassword, userControllers.add);
 router.delete("/users/:id", userControllers.destroy);
 
 router.post("/login", authControllers.getUsernameAndPassword, verifyPassword);
+
+router.use(verifyToken); // mur d'authentification
+router.get("/resources/:id", resourceControllers.read);
+router.put("/resources/:id", resourceControllers.edit);
+router.post("/resources", resourceControllers.add);
 
 module.exports = router;
