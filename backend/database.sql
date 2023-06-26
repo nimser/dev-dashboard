@@ -3,7 +3,7 @@ CREATE TABLE user
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(80) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(80) NOT NULL,
+    hashedPassword VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
   );
 
