@@ -20,16 +20,15 @@ nav {
 
 button {
   height: 2rem;
-  width: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 5px;
-  border: 1px dotted black;
+  border: 1px solid black;
 }
 button:hover {
-  background-color: lightsteelblue;
+  background-color: slateGrey;
   color: white;
   border-style: solid;
   cursor: pointer;
