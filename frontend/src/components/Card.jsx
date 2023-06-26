@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
+import { useAuth } from "../contexts/AuthContext";
 import styles from "./card.module.css";
 
 // cache and reuse promises based on url (see https://devpress.csdn.net/react/62eb675520df032da732b24a.html)
@@ -23,6 +24,7 @@ const createFetch = () => {
 };
 
 function Card({ resource, setIsUpdated }) {
+  const { token } = useAuth();
   const [banner, setBanner] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
   );
@@ -68,14 +70,16 @@ function Card({ resource, setIsUpdated }) {
       </header>
       <p>{resource.description}</p>
       <div>topics: {resource.topics}</div>
-      <div className={styles.toolBar}>
-        <button type="button" aria-label="delete" onClick={handleDelete}>
-          <AiFillDelete />
-        </button>
-        <button type="button" aria-label="edit" onClick={handleEdit}>
-          <AiFillEdit />
-        </button>
-      </div>
+      {token && (
+        <div className={styles.toolBar}>
+          <button type="button" aria-label="delete" onClick={handleDelete}>
+            <AiFillDelete />
+          </button>
+          <button type="button" aria-label="edit" onClick={handleEdit}>
+            <AiFillEdit />
+          </button>
+        </div>
+      )}
     </div>
   );
 }
