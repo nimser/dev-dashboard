@@ -42,6 +42,7 @@ function Card({ resource, setIsUpdated }) {
   const handleDelete = async () => {
     const instance = axios.create({
       baseURL: import.meta.env.VITE_BACKEND_URL,
+      headers: { Authorization: `Bearer ${token}` },
     });
     try {
       await instance.delete(`/resources/${resource.id}`);

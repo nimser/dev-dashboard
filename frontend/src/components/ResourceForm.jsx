@@ -3,13 +3,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import styles from "./resource.module.css";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function ResourceForm() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { token } = useAuth();
   const fetcher = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
   });
   const typeEnum = [
     "Practice / Exercise",
@@ -28,7 +33,9 @@ export default function ResourceForm() {
   });
 
   useEffect(() => {
-    if (id) {
+    if (token == null) {
+      navigate("/login");
+    } else if (id) {
       fetcher
         .get(`/resources/${id}`)
         .then(({ data }) => {
@@ -36,6 +43,9 @@ export default function ResourceForm() {
           setResource(data);
         })
         .catch((err) => {
+          if (err.response.data === "Unauthorized") {
+            navigate("/login");
+          }
           console.error(err);
         });
     }
