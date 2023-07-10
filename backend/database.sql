@@ -1,3 +1,12 @@
+CREATE TABLE user
+  (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    username VARCHAR(80) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    hashedPassword VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+  );
+
 CREATE TABLE resources
   (
     id INT NOT NULL AUTO_INCREMENT,
@@ -8,7 +17,6 @@ CREATE TABLE resources
     description VARCHAR(1500),
     PRIMARY KEY (id)
   );
-
 
 INSERT INTO resources
   (title, url, type, topics, description)
