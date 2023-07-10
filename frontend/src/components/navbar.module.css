@@ -1,0 +1,8 @@
+.menu {
+  display: flex;
+  gap: 1rem;
+}
+
+.actions button {
+  width: 2rem;
+}

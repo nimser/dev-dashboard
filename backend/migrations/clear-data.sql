@@ -1,1 +1,0 @@
-TRUNCATE DATABASE resources_dashboard;

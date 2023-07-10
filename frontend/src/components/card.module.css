@@ -21,3 +21,9 @@
   object-fit: cover;
   object-position: center top;
 }
+.toolBar {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

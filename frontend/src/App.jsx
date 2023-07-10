@@ -1,27 +1,28 @@
-import { useState, useEffect } from "react";
-import Card from "./components/Card";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import NavBar from "./components/NavBar";
+import LoginForm from "./components/LoginForm";
+import CardList from "./components/CardList";
+import UserForm from "./components/UserForm";
+import ResourceForm from "./components/ResourceForm";
 import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [resources, setResources] = useState(null);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetch("http://localhost:5000/resources");
-        const result = await data.json();
-        setResources(result);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
   return (
-    <main>
-      {resources?.map((rsc) => (
-        <Card key={rsc.id} resource={rsc} />
-      ))}
-    </main>
+    <BrowserRouter>
+      <ToastContainer />
+      <NavBar />
+      <main>
+        <Routes>
+          <Route path="/" element={<CardList />} />
+          <Route path="/create" element={<ResourceForm />} />
+          <Route path="/register" element={<UserForm />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/update/:id" element={<ResourceForm />} />
+        </Routes>
+      </main>
+    </BrowserRouter>
   );
 }
 

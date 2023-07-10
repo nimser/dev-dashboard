@@ -1,4 +1,7 @@
 #root {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
   margin: 2rem auto;
   max-width: 1200px;
 }
@@ -8,4 +11,25 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  height: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid black;
+}
+button:hover {
+  background-color: slateGrey;
+  color: white;
+  border-style: solid;
+  cursor: pointer;
 }
