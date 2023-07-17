@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
 import styles from "./card.module.css";
 
 // cache and reuse promises based on url (see https://devpress.csdn.net/react/62eb675520df032da732b24a.html)
@@ -24,7 +24,7 @@ const createFetch = () => {
 };
 
 function Card({ resource, setIsUpdated }) {
-  const { token } = useAuth();
+  const { user } = useUser();
   const [banner, setBanner] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
   );
@@ -42,7 +42,7 @@ function Card({ resource, setIsUpdated }) {
   const handleDelete = async () => {
     const instance = axios.create({
       baseURL: import.meta.env.VITE_BACKEND_URL,
-      headers: { Authorization: `Bearer ${token}` },
+      withCredentials: true,
     });
     try {
       await instance.delete(`/resources/${resource.id}`);
@@ -71,7 +71,7 @@ function Card({ resource, setIsUpdated }) {
       </header>
       <p>{resource.description}</p>
       <div>topics: {resource.topics}</div>
-      {token && (
+      {user && (
         <div className={styles.toolBar}>
           <button type="button" aria-label="delete" onClick={handleDelete}>
             <AiFillDelete />

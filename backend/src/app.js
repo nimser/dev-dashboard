@@ -5,15 +5,18 @@ const path = require("node:path");
 
 // create express app
 const express = require("express");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 // setup required middleware
 const cors = require("cors");
 
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.json());
 app.use(
   cors({
+    credentials: true,
     origin: process.env.FRONTEND_URL ?? "http://localhost:3000",
     optionsSuccessStatus: 200,
   })

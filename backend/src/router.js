@@ -9,6 +9,7 @@ const {
   hashPassword,
   verifyPassword,
   verifyToken,
+  logout,
 } = require("./middlewares/services/auth");
 
 router.get("/resources", resourceControllers.browse);
@@ -20,7 +21,7 @@ router.post("/users", validateUser, hashPassword, userControllers.add);
 router.delete("/users/:id", userControllers.destroy);
 
 router.post("/login", authControllers.getUsernameAndPassword, verifyPassword);
-
+router.get("/logout", logout);
 router.use(verifyToken); // Auth wall. Routes after this lines use the middleware
 router.get("/resources/:id", resourceControllers.read);
 router.put("/resources/:id", resourceControllers.edit);
