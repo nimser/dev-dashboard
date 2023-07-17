@@ -1,13 +1,13 @@
 import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./userform.module.css";
-import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
 
 function LoginForm() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState("");
   const form = useRef(null);
-  const { setToken } = useAuth();
+  const { setUser } = useUser();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,6 +17,7 @@ function LoginForm() {
       `${import.meta.env.VITE_BACKEND_URL ?? "http://localhost:5000"}/login`,
       {
         method: "POST",
+        credentials: "include",
         headers: {
           "content-type": "application/json",
         },
@@ -28,7 +29,7 @@ function LoginForm() {
         if (json.message) {
           setErrors(json);
         } else {
-          setToken(json.token);
+          setUser(json.user);
           navigate("/");
         }
       });

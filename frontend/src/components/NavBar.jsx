@@ -1,24 +1,28 @@
 import { useNavigate, Link } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import styles from "./navbar.module.css";
-import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
 
 export default function NavBar() {
   const navigate = useNavigate();
   const handleOnClick = () => navigate("/create");
-  const { token, setToken } = useAuth();
+  const { user, setUser } = useUser();
+  const handleLogout = async () => {
+    setUser(null);
+    await fetch(`${import.meta.env.VITE_BACKEND_URL}/logout`);
+  };
 
   return (
     <>
       <nav className={styles.menu}>
         <Link to="/">Home</Link>
-        {token == null ? (
+        {user == null ? (
           <>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
           </>
         ) : (
-          <button type="button" onClick={() => setToken(null)}>
+          <button type="button" onClick={handleLogout}>
             Logout
           </button>
         )}

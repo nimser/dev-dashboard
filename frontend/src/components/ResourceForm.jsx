@@ -3,17 +3,17 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import styles from "./resource.module.css";
-import { useAuth } from "../contexts/AuthContext";
+import { useUser } from "../contexts/UserContext";
 
 export default function ResourceForm() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { token } = useAuth();
+  const { user, logout } = useUser();
   const fetcher = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
+    withCredentials: true,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
   });
   const typeEnum = [
@@ -33,7 +33,7 @@ export default function ResourceForm() {
   });
 
   useEffect(() => {
-    if (token == null) {
+    if (user == null) {
       navigate("/login");
     } else if (id) {
       fetcher
@@ -44,6 +44,7 @@ export default function ResourceForm() {
         })
         .catch((err) => {
           if (err.response.data === "Unauthorized") {
+            logout();
             navigate("/login");
           }
           console.error(err);
