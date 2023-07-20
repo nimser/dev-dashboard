@@ -23,7 +23,7 @@ const createFetch = () => {
   };
 };
 
-function Card({ resource, setIsUpdated }) {
+function Card({ resource, forceUpdate }) {
   const { user } = useUser();
   const [banner, setBanner] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png"
@@ -49,10 +49,10 @@ function Card({ resource, setIsUpdated }) {
     } catch (err) {
       console.error(err);
     }
-    setIsUpdated((old) => !old);
+    forceUpdate();
   };
 
-  const handleEdit = async () => {
+  const handleEdit = () => {
     navigate(`/update/${resource.id}`);
   };
 
@@ -94,7 +94,7 @@ Card.propTypes = {
     topics: PropTypes.string,
     description: PropTypes.string,
   }).isRequired,
-  setIsUpdated: PropTypes.func.isRequired,
+  forceUpdate: PropTypes.func.isRequired,
 };
 
 export default Card;

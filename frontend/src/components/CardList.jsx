@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useReducer } from "react";
 import Card from "./Card";
 
 export default function CardList() {
   const [resources, setResources] = useState(null);
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [updateCount, forceUpdate] = useReducer((x) => x + 1, 0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,9 +18,9 @@ export default function CardList() {
       }
     };
     fetchData();
-  }, [isUpdated]);
+  }, [updateCount]);
 
   return resources?.map((rsc) => (
-    <Card key={rsc.id} resource={rsc} setIsUpdated={setIsUpdated} />
+    <Card key={rsc.id} resource={rsc} forceUpdate={forceUpdate} />
   ));
 }
