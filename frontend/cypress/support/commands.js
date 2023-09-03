@@ -10,7 +10,14 @@
 //
 //
 // -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
+Cypress.Commands.add("login", (username, password) => {
+  const usernameSel = `[name=username]`;
+  const passwordSel = `[name=password]`;
+  const submitSel = `[type=submit]`;
+  cy.get(usernameSel).type(username);
+  cy.get(passwordSel).type(password);
+  cy.get(submitSel).click();
+});
 //
 //
 // -- This is a child command --
